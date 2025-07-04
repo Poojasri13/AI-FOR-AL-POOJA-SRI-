@@ -1,0 +1,25 @@
+def solve(n=8):
+    def is_safe(qs, row, col):
+        return all(qs[i] != col and abs(qs[i]-col) != row-i for i in range(row))
+    
+    def dfs(row=0, qs=[]):
+        if row == n:
+            res.append(qs)
+            return
+        for col in range(n):
+            if is_safe(qs, row, col):
+                dfs(row+1, qs+[col])
+    res = []
+    dfs()
+    return res
+for q in solve()[0]:
+    print(''.join('Q' if i == q else '.' for i in range(8)))
+OUTPUT:
+.Q......
+...Q....
+.....Q..
+.......Q
+..Q.....
+......Q.
+.Q......
+....Q...
