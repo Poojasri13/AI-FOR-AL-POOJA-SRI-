@@ -1,0 +1,33 @@
+from collections import deque
+def water_jug_bfs(a_cap, b_cap, goal):
+    visited = set()
+    q = deque()
+    q.append((0, 0, []))  # (jugA, jugB, path)
+    while q:
+        a, b, path = q.popleft()
+        if (a, b) in visited:
+            continue
+        visited.add((a, b))
+        path = path + [(a, b)]
+        if a == goal or b == goal:
+            return path
+        next_states = [
+            (a_cap, b), (a, b_cap), (0, b), (a, 0),  # Fill or empty
+            (max(0, a - (b_cap - b)), min(b_cap, b + a)),  # A→B
+            (min(a_cap, a + b), max(0, b - (a_cap - a)))   # B→A
+        ]
+        for state in next_states:
+            q.append((state[0], state[1], path))
+    return []
+# Example: 4L and 3L jugs, goal = 2L
+path = water_jug_bfs(4, 3, 2)
+# Output
+Steps:
+Jug A: 0L, Jug B: 0L
+Jug A: 0L, Jug B: 3L
+Jug A: 3L, Jug B: 0L
+Jug A: 3L, Jug B: 3L
+Jug A: 4L, Jug B: 2L
+Jug A: 0L, Jug B: 2L
+Jug A: 2L, Jug B: 0L
+
